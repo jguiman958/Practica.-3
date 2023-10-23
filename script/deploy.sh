@@ -32,11 +32,16 @@ sed -i "s/password_here/$DB_PASSWORD/" /var/www/html/config.php
 # Mostramos el contenido de la ruta.
 cat /var/www/html/config.php
 
+# Modificamos el script de base de datos.
+sed -i "s/lamp_db/$DB_NAME/" /tmp/iaw-practica-lamp/db/database.sql
+
+
 # Importamos el script de base de datos.
 mysql -u root < /tmp/iaw-practica-lamp/db/database.sql
 
-# Creamos el susuario de la base de datos y lñe asingamos privilegios
+# Creamos el susuario de la base de datos y le asingamos privilegios
 mysql -u root <<< "DROP USER IF EXISTS $DB_USER@'%'"
-mysql -u root <<< "CREATE USER $DB_USER@'%' INDETIFIED BY '$DB_PASSWORD'"
+mysql -u root <<< "CREATE USER $DB_USER@'%' IDENTIFIED BY '$DB_PASSWORD'"
 mysql -u root <<< "GRANT ALL PRIVILEGES ON $DB_NAME.* TO $DB_USER@'%'"
+
 
