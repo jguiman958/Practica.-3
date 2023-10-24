@@ -202,18 +202,65 @@ cat /var/www/html/config.php
 
 ### Esto es lo que contiene dicho archivo si realizamos un cat.
 
-![Captura](https://github.com/jguiman958/Practica.-3/assets/145347496/b06e4ce0-32be-4ed0-9a5f-f3b104b7f5c4)
-
+```
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'aplicacion');
+define('DB_USER', 'lamp_user');
+define('DB_PASSWORD', 'lamp_password');
+```
+### Aquí podemos ver la información que hay en config.php, la cual se encuentran una serie de variables definidas con unos usuarios establecidos.
 
 # Modificamos el script de base de datos.
-sed -i "s/lamp_db/$DB_NAME/" /tmp/iaw-practica-lamp/db/database.sql
+### Esto podemos encontrarlo en la siguiente ruta: **/tmp/iaw-practica-lamp/db/database.sql** en el directorio donde colocamos nuestro repositorio. 
 
+```
+-- Create a database
+DROP DATABASE IF EXISTS aplicacion;
+CREATE DATABASE aplicacion CHARSET utf8mb4;
+USE aplicacion;
+
+-- Create the users table
+CREATE TABLE users (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  age INT UNSIGNED NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*
+-- Example about how to create a new database user and grant privileges.
+-- Remember to change the static values of: DB_USER, DB_PASSWORD and DB_NAME
+
+DROP USER IF EXISTS 'DB_USER'@'%';
+CREATE USER 'DB_USER'@'%' IDENTIFIED BY 'DB_PASSWORD';
+GRANT ALL PRIVILEGES ON DB_NAME.* TO 'DB_USER'@'%';
+```
+### Esto es lo que vemos en el archivo **database.sql**
+
+```
+sed -i "s/lamp_db/$DB_NAME/" /tmp/iaw-practica-lamp/db/database.sql
+```
+### Con esto, lo que hace es incorporar la variable ``DB_NAME`` al archivo ``/tmp/iaw-practica-lamp/db/database.sql``, donde contenga el nombre de la base de datos que va a crear, con la finalidad de que se pueda crear cualquier base de datos sin que manifieste un error, el que use este repositorio solo tendrán que modificar el dato que almacena la variable ``DB_NAME``.
 
 # Importamos el script de base de datos.
+```
 mysql -u root < /tmp/iaw-practica-lamp/db/database.sql
+```
+### Realizamos una **redirección de entrada para importar la base de datos a mysql** sin necesidad de conectarnos, evitando pasos innecesarios, simplemente importándola.
 
 # Creamos el susuario de la base de datos y le asingamos privilegios
+```
 mysql -u root <<< "DROP USER IF EXISTS $DB_USER@'%'"
 mysql -u root <<< "CREATE USER $DB_USER@'%' IDENTIFIED BY '$DB_PASSWORD'"
 mysql -u root <<< "GRANT ALL PRIVILEGES ON $DB_NAME.* TO $DB_USER@'%'"
+```
+### Y con estas tres instrucciones creamos al usuario de la base de datos, pero como podemos comprobar todo se esta realizando a traves de variable predefinidas en el archivo *.env*:
+```
+DB_NAME=aplicacion
+DB_USER=lamp_user
+DB_PASSWORD=lamp_password
+```
+### Estas tres principalmente, ahora si ejecutamos el script ``deploy.sh`` crearemos bases de datos con el nombre que nos interese y sin que se presenten fallos.
 
+# Comprobación de que se ha creado la base de datos.
+### Si hacemos ``mysql -u usuario_de_.env -p`` --> y hacemos ``show database;`` nos mostrará las bases de datos creadas, aquí podremos comprobar si la ha creado o no.
