@@ -202,6 +202,7 @@ cat /var/www/html/config.php
 
 ### Esto es lo que contiene dicho archivo si realizamos un cat.
 
+![Captura](https://github.com/jguiman958/Practica.-3/assets/145347496/b06e4ce0-32be-4ed0-9a5f-f3b104b7f5c4)
 
 
 # Modificamos el script de base de datos.
