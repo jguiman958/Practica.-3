@@ -264,3 +264,9 @@ DB_PASSWORD=lamp_password
 
 # Comprobación de que se ha creado la base de datos.
 ### Si hacemos ``mysql -u usuario_de_.env -p`` --> y hacemos ``show database;`` nos mostrará las bases de datos creadas, aquí podremos comprobar si la ha creado o no.
+
+# Modificamos el propietario y el grupo del directo /var/www/html
+```
+sudo chown -R www-data:www-data /var/www/html
+```
+### Establecemos los permisos para que el propietario sea el usuario de apache.

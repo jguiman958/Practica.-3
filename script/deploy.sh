@@ -44,4 +44,5 @@ mysql -u root <<< "DROP USER IF EXISTS $DB_USER@'%'"
 mysql -u root <<< "CREATE USER $DB_USER@'%' IDENTIFIED BY '$DB_PASSWORD'"
 mysql -u root <<< "GRANT ALL PRIVILEGES ON $DB_NAME.* TO $DB_USER@'%'"
 
-
+# Modificamos el propietario y el grupo del directo /var/www/html
+sudo chown -R www-data:www-data /var/www/html
