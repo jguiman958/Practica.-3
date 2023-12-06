@@ -8,10 +8,9 @@ set -x
 source .env
 
 # Actualización de repositorios
- sudo apt update
+apt update
 
-# Actualización de paquetes
-# sudo apt upgrade  
+ 
 
 # Eliminamos descargas previas del repositorio.
 rm -rf /tmp/iaw-practica-lamp
@@ -19,7 +18,7 @@ rm -rf /tmp/iaw-practica-lamp
 # Clonamos el repositorio del codigo fuente de la aplicación
 git clone https://github.com/josejuansanchez/iaw-practica-lamp.git /tmp/iaw-practica-lamp
 
-# movemos el código fuente de la aplicación a /var/www/html
+# Movemos el código fuente de la aplicación a /var/www/html
 
 mv /tmp/iaw-practica-lamp/src/* /var/www/html
 
